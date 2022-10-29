@@ -3,10 +3,12 @@ package com.ensibuuko.android_dev_coding_assigment.data.models
 import kotlinx.serialization.*
 
 @Serializable
-data class Post (
-    @SerialName("userId")
-    val userID: Long,
+data class Comment (
+    @SerialName("postId")
+    val postID: Long,
+
     val id: Long,
-    val title: String,
+    val name: String,
+    val email: String,
     val body: String
 )
