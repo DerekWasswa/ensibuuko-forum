@@ -1,10 +1,13 @@
 package com.ensibuuko.android_dev_coding_assigment.data.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.serialization.*
 
+@Entity(tableName = "users")
 @Serializable
 data class User (
-    val id: Long,
+    @PrimaryKey val id: Long,
     val name: String,
     val username: String,
     val email: String,
