@@ -1,9 +1,7 @@
 package com.ensibuuko.android_dev_coding_assigment.data.models
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PostDao {
@@ -12,6 +10,12 @@ interface PostDao {
     fun getPosts(): List<Post>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPost(post: Post): Long
+    suspend fun insertPosts(posts: List<Post>): Flow<Unit>
+
+    @Delete
+    fun deletePost(post: Post)
+
+    @Update
+    fun updatePost(post: Post)
 
 }

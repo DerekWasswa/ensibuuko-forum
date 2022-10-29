@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ensibuuko.android_dev_coding_assigment.data.models.Post
-import com.ensibuuko.android_dev_coding_assigment.data.repository.PostsRepository
+import com.ensibuuko.android_dev_coding_assigment.data.models.Comment
+import com.ensibuuko.android_dev_coding_assigment.data.models.User
+import com.ensibuuko.android_dev_coding_assigment.data.repository.UserRepository
 import com.ensibuuko.android_dev_coding_assigment.utils.ConnectionDetector
 import com.ensibuuko.android_dev_coding_assigment.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -14,34 +15,35 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class PostsViewModel(
-    private val postsRepository: PostsRepository,
+class UsersViewModel(
+    private val userRepository: UserRepository,
     private val connectionDetector: ConnectionDetector
 ) : ViewModel() {
 
-    private val _posts = MutableLiveData<Resource<List<Post>>>()
-    val posts : LiveData<Resource<List<Post>>>
-        get() = _posts
+    private val _users = MutableLiveData<Resource<List<User>>>()
+    val users : LiveData<Resource<List<User>>>
+        get() = _users
 
-    fun fetchPosts() {
+    fun fetchUsers() {
         viewModelScope.launch(Dispatchers.IO) {
-            _posts.run {
+            _users.run {
                 postValue(Resource.loading())
 
                 if (connectionDetector.isNetworkAvailable()) {
-                    postsRepository.fetchPosts()
+                    userRepository.fetchUsers()
                         .catch { e ->
-                            postValue(Resource.error(e.message?: "fetching posts"))
+                            postValue(Resource.error(e.message?: "fetching users error"))
                         }
                         .collectLatest {
-                            withContext(Dispatchers.IO) { postsRepository.insertPosts(it) }
+                            withContext(Dispatchers.IO) { userRepository.insertUsers(it) }
                             postValue(Resource.success(it))
                         }
                 } else {
-                    postsRepository.getLocalPosts()
+                    userRepository.getLocalUsers()
                         .collectLatest { postValue(Resource.success(it)) }
                 }
             }
         }
     }
+
 }

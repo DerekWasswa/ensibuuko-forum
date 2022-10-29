@@ -9,5 +9,5 @@ interface PostApi {
     suspend fun getPosts(): List<Post>
 
     @GET("posts")
-    suspend fun sendPost(@QueryMap options: Map<String, Any>): Post
+    suspend fun addPost(@QueryMap options: Map<String, Any>): Post
 }

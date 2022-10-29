@@ -1,9 +1,11 @@
 package com.ensibuuko.android_dev_coding_assigment.data.repository
 
 import com.ensibuuko.android_dev_coding_assigment.data.models.Post
-import com.ensibuuko.android_dev_coding_assigment.utils.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface PostsRepository {
-    suspend fun fetchPosts(): Resource<List<Post>>
-    suspend fun getLocalPosts(): List<Post>
+    suspend fun fetchPosts(): Flow<List<Post>>
+    suspend fun getLocalPosts(): Flow<List<Post>>
+    suspend fun insertPosts(posts: List<Post>): Flow<Unit>
+    suspend fun insertPost(post: Post): Flow<Unit>
 }

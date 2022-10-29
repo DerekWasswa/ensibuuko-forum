@@ -1,9 +1,7 @@
 package com.ensibuuko.android_dev_coding_assigment.data.models
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CommentDao {
@@ -11,5 +9,11 @@ interface CommentDao {
     fun getComments(): List<Comment>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertComment(comment: Comment): Long
+    suspend fun insertComments(comments: List<Comment>): Flow<Unit>
+
+    @Delete
+    fun deleteComment(comment: Comment)
+
+    @Update
+    fun updateComment(comment: Comment)
 }
