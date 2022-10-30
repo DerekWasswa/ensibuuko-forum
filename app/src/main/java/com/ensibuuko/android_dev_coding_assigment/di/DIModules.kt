@@ -11,9 +11,7 @@ import com.ensibuuko.android_dev_coding_assigment.data.AppDatabase
 import com.ensibuuko.android_dev_coding_assigment.data.models.CommentDao
 import com.ensibuuko.android_dev_coding_assigment.data.models.PostDao
 import com.ensibuuko.android_dev_coding_assigment.data.models.UserDao
-import com.ensibuuko.android_dev_coding_assigment.data.repository.CommentRepositoryImpl
-import com.ensibuuko.android_dev_coding_assigment.data.repository.PostRepositoryImpl
-import com.ensibuuko.android_dev_coding_assigment.data.repository.UserRepositoryImpl
+import com.ensibuuko.android_dev_coding_assigment.data.repository.*
 import com.ensibuuko.android_dev_coding_assigment.utils.ConnectionDetector
 import com.ensibuuko.android_dev_coding_assigment.utils.Constants
 import com.ensibuuko.android_dev_coding_assigment.viewmodels.CommentsViewModel
@@ -114,9 +112,7 @@ val networkModule = module {
 }
 
 val viewModelModule = module {
-    viewModel {
-        PostsViewModel(PostRepositoryImpl(get(), get()), get())
-        CommentsViewModel(CommentRepositoryImpl(get(), get()), get())
-        UsersViewModel(UserRepositoryImpl(get(), get()), get())
-    }
+    viewModel { PostsViewModel(PostRepositoryImpl(get(), get()) as PostsRepository, get()) }
+    viewModel { CommentsViewModel(CommentRepositoryImpl(get(), get()) as CommentRepository, get()) }
+    viewModel { UsersViewModel(UserRepositoryImpl(get(), get()) as UserRepository, get()) }
 }

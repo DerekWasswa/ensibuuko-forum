@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface PostsRepository {
     suspend fun fetchPosts(): Flow<List<Post>>
     suspend fun getLocalPosts(): Flow<List<Post>>
-    suspend fun insertPosts(posts: List<Post>): Flow<Unit>
-    suspend fun insertPost(post: Post): Flow<Unit>
+    suspend fun insertPosts(posts: List<Post>)
+    suspend fun insertPost(post: Post)
 }

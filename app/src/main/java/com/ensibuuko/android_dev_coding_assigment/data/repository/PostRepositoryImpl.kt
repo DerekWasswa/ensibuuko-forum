@@ -13,10 +13,13 @@ class PostRepositoryImpl(
 
     override suspend fun fetchPosts(): Flow<List<Post>> = flow { emit(postApi.getPosts()) }
 
-    override suspend fun getLocalPosts(): Flow<List<Post>> = flow { emit(postDao.getPosts()) }
+    override suspend fun getLocalPosts(): Flow<List<Post>> = postDao.getPosts()
 
-    override suspend fun insertPosts(posts: List<Post>): Flow<Unit> = flow {
+    override suspend fun insertPosts(posts: List<Post>) {
         postDao.insertPosts(posts)
-        emit(Unit)
+    }
+
+    override suspend fun insertPost(post: Post) {
+        postDao.insertPost(post)
     }
 }

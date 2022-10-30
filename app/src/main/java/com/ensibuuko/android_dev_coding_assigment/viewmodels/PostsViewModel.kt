@@ -30,8 +30,9 @@ class PostsViewModel(
 
                 if (connectionDetector.isNetworkAvailable()) {
                     postsRepository.fetchPosts()
-                        .catch { e ->
-                            postValue(Resource.error(e.message?: "fetching posts"))
+                        .catch { _ ->
+                            postsRepository.getLocalPosts()
+                                .collectLatest { postValue(Resource.success(it)) }
                         }
                         .collectLatest {
                             withContext(Dispatchers.IO) { postsRepository.insertPosts(it) }

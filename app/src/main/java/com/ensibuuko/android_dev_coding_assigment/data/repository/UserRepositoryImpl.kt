@@ -14,8 +14,7 @@ class UserRepositoryImpl(
 
     override suspend fun getLocalUsers(): Flow<List<User>> = flow { emit(userDao.getUsers()) }
 
-    override suspend fun insertUsers(users: List<User>): Flow<Unit> = flow {
+    override suspend fun insertUsers(users: List<User>) {
         userDao.insertUsers(users)
-        emit(Unit)
     }
 }

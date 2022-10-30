@@ -1,6 +1,5 @@
 package com.ensibuuko.android_dev_coding_assigment.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ensibuuko.android_dev_coding_assigment.R
 import com.ensibuuko.android_dev_coding_assigment.data.models.Post
+import com.ensibuuko.android_dev_coding_assigment.databinding.PostRowBinding
 
-class PostsAdapter(var context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PostsAdapter(val postSelection: PostSelection) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val diffCallBack = object : DiffUtil.ItemCallback<Post>() {
         override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
@@ -22,11 +22,12 @@ class PostsAdapter(var context: Context) : RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    var reviews: List<Post> = emptyList()
+    var posts: List<Post> = emptyList()
     private val differ = AsyncListDiffer(this, diffCallBack)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return PostItem(LayoutInflater.from(parent.context).inflate(R.layout.post_row, parent, false), context)
+        val binding: PostRowBinding = PostRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PostItem(binding)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -42,14 +43,22 @@ class PostsAdapter(var context: Context) : RecyclerView.Adapter<RecyclerView.Vie
     }
 
     fun submitList(list: List<Post>) {
-        reviews = list
+        posts = list
         differ.submitList(list)
     }
 
-    class PostItem constructor(itemView: View, var context: Context) : RecyclerView.ViewHolder(itemView) {
+    inner class PostItem internal constructor(binding: PostRowBinding) : RecyclerView.ViewHolder(binding.root) {
+        private val mBinding: PostRowBinding = binding
+        fun bind(post: Post) = with(itemView) {
+            mBinding.root.setOnClickListener { postSelection.selectedPost(post) }
 
-        fun bind(review: Post) = with(itemView) {
-
+            mBinding.body.text = post.body
+            mBinding.title.text = post.title
+            mBinding.comments.text = "0 Comments"
         }
     }
+}
+
+interface PostSelection {
+    fun selectedPost(post: Post)
 }

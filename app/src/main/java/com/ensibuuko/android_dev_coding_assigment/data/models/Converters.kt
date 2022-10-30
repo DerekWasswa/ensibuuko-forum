@@ -1,15 +1,13 @@
 package com.ensibuuko.android_dev_coding_assigment.data.models
 
-import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.ensibuuko.android_dev_coding_assigment.utils.JsonParser
+import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-@ProvidedTypeConverter
-class Converters(private val jsonParser: JsonParser) {
+class Converters() {
     @TypeConverter
     fun toAddressJson(address: Address) : String {
-        return jsonParser.toJson(
+        return Gson().toJson(
             address,
             object : TypeToken<Address>(){}.type
         ) ?: "{}"
@@ -17,31 +15,15 @@ class Converters(private val jsonParser: JsonParser) {
 
     @TypeConverter
     fun fromAddressJson(json: String): Address {
-        return jsonParser.fromJson<Address>(
+        return Gson().fromJson<Address>(
             json,
             object: TypeToken<Address>(){}.type
-        ) ?: Address("", "", "", "", Geo("", ""))
-    }
-
-    @TypeConverter
-    fun toGeoJson(geo: Geo) : String {
-        return jsonParser.toJson(
-            geo,
-            object : TypeToken<Geo>(){}.type
-        ) ?: "{}"
-    }
-
-    @TypeConverter
-    fun fromGeoJson(json: String): Geo{
-        return jsonParser.fromJson<Geo>(
-            json,
-            object: TypeToken<Geo>(){}.type
-        ) ?: Geo("", "")
+        ) ?: Address("", "", "", "")
     }
 
     @TypeConverter
     fun toCompanyJson(company: Company) : String {
-        return jsonParser.toJson(
+        return Gson().toJson(
             company,
             object : TypeToken<Company>(){}.type
         ) ?: "{}"
@@ -49,7 +31,7 @@ class Converters(private val jsonParser: JsonParser) {
 
     @TypeConverter
     fun fromCompanyJson(json: String): Company{
-        return jsonParser.fromJson<Company>(
+        return Gson().fromJson<Company>(
             json,
             object: TypeToken<Company>(){}.type
         ) ?: Company("","", "")

@@ -6,10 +6,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CommentDao {
     @Query("SELECT * FROM comments")
-    fun getComments(): List<Comment>
+    fun getComments(): Flow<List<Comment>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertComments(comments: List<Comment>): Flow<Unit>
+    suspend fun insertComments(comments: List<Comment>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertComment(comment: Comment)
 
     @Delete
     fun deleteComment(comment: Comment)

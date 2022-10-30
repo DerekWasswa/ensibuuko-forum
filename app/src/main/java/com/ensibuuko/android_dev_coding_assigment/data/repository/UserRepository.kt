@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface UserRepository {
     suspend fun fetchUsers(): Flow<List<User>>
     suspend fun getLocalUsers(): Flow<List<User>>
-    suspend fun insertUsers(users: List<User>): Flow<Unit>
+    suspend fun insertUsers(users: List<User>)
 }

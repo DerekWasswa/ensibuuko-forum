@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.ensibuuko.android_dev_coding_assigment.data.models.*
 
-@Database(entities = [User::class, Post::class, Comment::class], version = 1, exportSchema = false)
+@Database(entities = [User::class, Post::class, Comment::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao

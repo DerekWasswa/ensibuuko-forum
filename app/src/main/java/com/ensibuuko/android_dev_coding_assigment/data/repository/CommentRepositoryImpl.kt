@@ -12,11 +12,14 @@ class CommentRepositoryImpl(
 ): CommentRepository {
     override suspend fun fetchComments(): Flow<List<Comment>> = flow { emit(commentApi.getComments()) }
 
-    override suspend fun getLocalComments(): Flow<List<Comment>> = flow { emit(commentDao.getComments()) }
+    override suspend fun getLocalComments(): Flow<List<Comment>> = commentDao.getComments()
 
-    override suspend fun insertComments(comments: List<Comment>): Flow<Unit> = flow {
+    override suspend fun insertComments(comments: List<Comment>) {
         commentDao.insertComments(comments)
-        emit(Unit)
+    }
+
+    override suspend fun insertComment(comment: Comment) {
+        commentDao.insertComment(comment)
     }
 
 }

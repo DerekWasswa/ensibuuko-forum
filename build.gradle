@@ -11,9 +11,11 @@ buildscript {
     ext.mockito = "4.3.1"
     ext.espresso_test = "3.4.0"
     ext.jacoco_version = '0.8.7'
+    ext.nav_version = '2.3.5'
 
     dependencies {
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
     }
 }
 
