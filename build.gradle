@@ -1,5 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+    ext.kotlin_serialization = '1.4.1'
     ext.okhttp = "4.4.0"
     ext.retrofit = "2.9.0"
     ext.koin = "3.2.0"
@@ -10,7 +11,6 @@ buildscript {
     ext.mockito = "4.3.1"
     ext.espresso_test = "3.4.0"
     ext.jacoco_version = '0.8.7'
-    ext.kotlin_serialization = '1.4.1'
 
     dependencies {
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
