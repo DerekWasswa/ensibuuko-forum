@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_gravity="top|end"
-        android:id="@+id/author"
+        android:id="@+id/user"
         android:layout_width="@dimen/dimen_40dp"
         android:layout_height="@dimen/dimen_40dp"
         android:layout_marginEnd="@dimen/dimen_16dp">
@@ -34,6 +34,7 @@
             android:textColor="@color/purple_200"
             android:textSize="@dimen/text_18sp"
             android:textAllCaps="true"
+            android:fontFamily="@font/gilroy_semi_bold"
             android:layout_height="wrap_content"
             tools:text="A" />
 
@@ -41,53 +42,71 @@
 
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/username_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/author"
-        android:fontFamily="@font/gilroy_semi_bold"
+        android:layout_toEndOf="@id/user"
         android:textSize="@dimen/text_18sp"
-        android:maxLines="1"
-        android:ellipsize="end"
         tools:text="Annabelle - England" />
 
     <TextView
-        android:id="@+id/user"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         tools:text="Maria Antonnete"
         android:textSize="@dimen/text_10sp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_toEndOf="@id/author" />
+        android:layout_below="@id/username_address"
+        android:layout_toEndOf="@id/user" />
 
     <TextView
-        android:id="@+id/body"
+        android:id="@+id/addresses"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/author"
+        android:layout_below="@id/phone_web"
         android:layout_marginTop="20dp"
         android:ellipsize="end"
         android:maxLines="3"
         android:textSize="@dimen/text_18sp"
-        tools:text="Lorem ipsum dolor sit amet, ea vis nullam appareat accusata, ea quo quis purto. Quo debitis gloriatur et, ius no lorem inermis." />
+        tools:text="Lorem ipsum dolor sit amet, ea vis nullam appareat accusata" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/company"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/body"
+        android:layout_below="@id/addresses"
+        android:layout_marginTop="20dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textSize="@dimen/text_18sp"
+        tools:text="Amet, ea vis nullam appareat accusata, ea quo quis purto. Quo debitis gloriatur et, ius no lorem inermis." />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/phone_web"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/comments"
-            tools:text="4 Comments"
-            android:fontFamily="@font/gilroy_light"
+            android:id="@+id/website"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_16sp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="hildegard.org" />
+
+        <TextView
+            android:id="@+id/comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1-463-123-4447" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

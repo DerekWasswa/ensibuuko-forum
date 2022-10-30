@@ -11,7 +11,11 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="android:textViewStyle">@style/base_ensibuuko_font</item>
+    </style>
+
+    <style name="base_ensibuuko_font">
+        <item name="android:fontFamily">@font/ensibuuko_font</item>
     </style>
 
     <style name="Theme.AndroidDevCodingAssigment.NoActionBar">
@@ -22,4 +26,15 @@
     <style name="Theme.AndroidDevCodingAssigment.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.AndroidDevCodingAssigment.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_background</item>
+    </style>
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
 </resources>

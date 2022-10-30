@@ -13,13 +13,39 @@
 
         <action
             android:id="@+id/action_Post_to_PostDetails"
-            app:destination="@id/PostDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/PostDetailsFragment"
-        android:name="com.ensibuuko.android_dev_coding_assigment.views.PostDetailsFragment"
-        android:label="@string/details_fragment_label"
-        tools:layout="@layout/fragment_second">
+            app:destination="@id/postDetailsFragment" />
+
+        <action
+            android:id="@+id/action_Post_to_AddPost"
+            app:destination="@id/addPostFragment" />
 
     </fragment>
+    <fragment
+        android:id="@+id/postDetailsFragment"
+        android:name="com.ensibuuko.android_dev_coding_assigment.views.PostDetailsFragment"
+        android:label="@string/details_fragment_label"
+        tools:layout="@layout/post_details">
+
+        <argument android:name="post" app:argType="com.ensibuuko.android_dev_coding_assigment.data.models.Post" />
+
+        <action
+            android:id="@+id/action_PostDetails_to_AddComment"
+            app:destination="@id/addCommentFragment" />
+
+    </fragment>
+
+    <dialog android:id="@+id/addPostFragment"
+        android:name="com.ensibuuko.android_dev_coding_assigment.views.AddPostFragment"
+        android:label="@string/add_post"
+        tools:layout="@layout/add_post_bottomsheet" />
+
+    <dialog android:id="@+id/addCommentFragment"
+        android:name="com.ensibuuko.android_dev_coding_assigment.views.AddCommentFragment"
+        android:label="@string/add_comment"
+        tools:layout="@layout/add_comment_bottomsheet">
+
+        <argument android:name="post" app:argType="com.ensibuuko.android_dev_coding_assigment.data.models.Post" />
+
+    </dialog>
+
 </navigation>

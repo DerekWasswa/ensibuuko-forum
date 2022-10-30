@@ -41,35 +41,42 @@
 
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/name"
+        tools:text="Annabelle - England"
+        android:textSize="@dimen/text_18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/author"
-        android:fontFamily="@font/gilroy_semi_bold"
-        android:textSize="@dimen/text_18sp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        tools:text="Annabelle - England" />
+        android:layout_toEndOf="@id/author" />
 
     <TextView
-        android:id="@+id/user"
         android:layout_width="wrap_content"
-        tools:text="Maria Antonnete"
-        android:textSize="@dimen/text_10sp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_toEndOf="@id/author" />
+        android:layout_below="@id/name"
+        android:layout_toEndOf="@id/author"
+        android:textSize="@dimen/text_10sp"
+        tools:text="Frida July 10" />
+
+    <TextView
+        android:id="@+id/title"
+        android:fontFamily="@font/gilroy_semi_bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/author"
+        android:layout_marginTop="20dp"
+        android:textSize="@dimen/text_18sp"
+        tools:text="Lorem ipsum dolor sit amet, ea vis nullam appareat accusata, ea quo quis purto. Quo debitis gloriatur et, ius no lorem inermis." />
 
     <TextView
         android:id="@+id/body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/author"
-        android:layout_marginTop="20dp"
+        android:layout_below="@id/title"
+        android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:maxLines="3"
-        android:textSize="@dimen/text_18sp"
-        tools:text="Lorem ipsum dolor sit amet, ea vis nullam appareat accusata, ea quo quis purto. Quo debitis gloriatur et, ius no lorem inermis." />
+        android:textSize="@dimen/text_16sp"
+        tools:text="Lorem ipsum dolor sit amet, ea vis nullam appareat accusata" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -79,15 +86,25 @@
         android:orientation="horizontal">
 
         <TextView
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/comments"
-            tools:text="4 Comments"
             android:fontFamily="@font/gilroy_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_16sp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="4 Comments" />
+
+        <Button
+            android:id="@+id/add_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gilroy_semi_bold"
+            android:text="@string/add_comment"
+            android:textSize="@dimen/text_14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
