@@ -81,8 +81,14 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     testImplementation "androidx.room:room-testing:$room_version"
 
+    //WorkManager
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+    androidTestImplementation "androidx.work:work-testing:$work_version"
+
     //KOIN
     implementation "io.insert-koin:koin-android:$koin"
+    implementation "io.insert-koin:koin-androidx-workmanager:$koin"
+    implementation "io.insert-koin:koin-androidx-navigation:$koin"
     testImplementation "io.insert-koin:koin-test-junit4:$koin"
     testImplementation "io.insert-koin:koin-test:$koin"
 

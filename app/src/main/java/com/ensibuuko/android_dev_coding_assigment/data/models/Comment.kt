@@ -12,7 +12,7 @@ import kotlinx.serialization.*
 data class Comment (
     @PrimaryKey val id: Long,
 
-    val postId: Long,
+    var postId: Long,
     val name: String,
     val email: String,
     val body: String,

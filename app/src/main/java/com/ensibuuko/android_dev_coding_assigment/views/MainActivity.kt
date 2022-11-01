@@ -9,8 +9,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.work.*
 import com.ensibuuko.android_dev_coding_assigment.R
 import com.ensibuuko.android_dev_coding_assigment.databinding.ActivityMainBinding
+import com.ensibuuko.android_dev_coding_assigment.utils.LocalDataSyncWorker
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +32,21 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+        syncLocalPostsWithComments()
+    }
+
+    private fun syncLocalPostsWithComments() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresBatteryNotLow(true)
+            .build()
+
+        WorkManager.getInstance(applicationContext)
+            .enqueueUniquePeriodicWork(
+                "SYNC_LOCAL_POSTS_WITH_COMMENTS",
+                ExistingPeriodicWorkPolicy.REPLACE,
+                PeriodicWorkRequest.Builder(LocalDataSyncWorker::class.java, 1, TimeUnit.HOURS).setConstraints(constraints).build()
+            )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

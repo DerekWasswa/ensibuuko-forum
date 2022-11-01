@@ -61,6 +61,8 @@ class PostsAdapter(val postSelection: PostSelection) : RecyclerView.Adapter<Recy
         private val mBinding: PostRowBinding = binding
         fun bind(post: Post) = with(itemView) {
             mBinding.root.setOnClickListener { postSelection.selectedPost(post) }
+            mBinding.deletePost.setOnClickListener { postSelection.deletePost(post) }
+            mBinding.editPost.setOnClickListener { postSelection.updatePost(post) }
 
             val user = users.find { it.id == post.userId }
             val postComments = comments.filter { it.postId == post.id }

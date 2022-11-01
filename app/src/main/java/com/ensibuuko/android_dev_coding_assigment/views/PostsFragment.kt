@@ -51,7 +51,6 @@ class PostsFragment : Fragment() {
 
         initPostViews()
 
-        observePostOperation()
         observePosts()
         observeComments()
         observeUsers()
@@ -180,25 +179,6 @@ class PostsFragment : Fragment() {
                     error?.let { mError ->
                         Log.d(TAG, mError)
                     }
-                }
-            }
-        }
-    }
-
-    private fun observePostOperation() {
-        postsViewModel.postOperations.observe(viewLifecycleOwner) { (status, data, error) ->
-            when (status) {
-                Resource.Status.LOADING -> {
-
-                }
-                Resource.Status.SUCCESS -> {
-                    data?.let { _ ->
-                        postsViewModel.fetchPosts()
-                        Toast.makeText(requireContext(), "Successful", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                Resource.Status.ERROR -> {
-                    Toast.makeText(requireContext(), "Error, Try again!", Toast.LENGTH_SHORT).show()
                 }
             }
         }

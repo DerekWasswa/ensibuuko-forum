@@ -57,11 +57,16 @@ class PostsViewModel(
                     postsRepository.addRemotePost(post)
                         .catch {
                             postsRepository.insertPost(post)
+                            fetchPosts()
                             postValue(Resource.success(true))
                         }
-                        .collectLatest { postValue(Resource.success(true)) }
+                        .collectLatest {
+                            fetchPosts()
+                            postValue(Resource.success(true))
+                        }
                 } else {
                     postsRepository.insertPost(post)
+                    fetchPosts()
                     postValue(Resource.success(true))
                 }
             }
@@ -76,11 +81,16 @@ class PostsViewModel(
                     postsRepository.updateRemotePost(post)
                         .catch {
                             postsRepository.updateLocalPost(post)
+                            fetchPosts()
                             postValue(Resource.success(true))
                         }
-                        .collectLatest { postValue(Resource.success(true)) }
+                        .collectLatest {
+                            fetchPosts()
+                            postValue(Resource.success(true))
+                        }
                 } else {
                     postsRepository.updateLocalPost(post)
+                    fetchPosts()
                     postValue(Resource.success(true))
                 }
             }
@@ -94,11 +104,16 @@ class PostsViewModel(
                     postsRepository.deleteRemotePost(post.id.toString())
                         .catch {
                             postsRepository.deleteLocalPost(post)
+                            fetchPosts()
                             postValue(Resource.success(true))
                         }
-                        .collectLatest { postValue(Resource.success(true)) }
+                        .collectLatest {
+                            fetchPosts()
+                            postValue(Resource.success(true))
+                        }
                 } else {
                     postsRepository.deleteLocalPost(post)
+                    fetchPosts()
                     postValue(Resource.success(true))
                 }
             }

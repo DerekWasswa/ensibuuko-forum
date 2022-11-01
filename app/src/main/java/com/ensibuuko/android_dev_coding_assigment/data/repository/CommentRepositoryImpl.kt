@@ -13,7 +13,7 @@ class CommentRepositoryImpl(
 ): CommentRepository {
     override suspend fun fetchComments(): Flow<List<Comment>> = flow { emit(commentApi.getComments()) }
 
-    override suspend fun fetchPostComments(postId: String): Flow<List<Comment>> = flow { commentApi.getPostComments(postId) }
+    override suspend fun fetchPostComments(postId: String): Flow<List<Comment>> = flow { emit(commentApi.getPostComments(postId)) }
 
     override suspend fun addRemoteComment(comment: Comment): Flow<Comment> = flow { emit(commentApi.postComment(comment.postId.toString(), comment)) }
 

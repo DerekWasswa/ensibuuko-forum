@@ -14,6 +14,7 @@ import com.ensibuuko.android_dev_coding_assigment.data.models.UserDao
 import com.ensibuuko.android_dev_coding_assigment.data.repository.*
 import com.ensibuuko.android_dev_coding_assigment.utils.ConnectionDetector
 import com.ensibuuko.android_dev_coding_assigment.utils.Constants
+import com.ensibuuko.android_dev_coding_assigment.utils.LocalDataSyncWorker
 import com.ensibuuko.android_dev_coding_assigment.viewmodels.CommentsViewModel
 import com.ensibuuko.android_dev_coding_assigment.viewmodels.PostsViewModel
 import com.ensibuuko.android_dev_coding_assigment.viewmodels.UsersViewModel
@@ -22,6 +23,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.workmanager.dsl.worker
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -115,4 +117,8 @@ val viewModelModule = module {
     viewModel { PostsViewModel(PostRepositoryImpl(get(), get()) as PostsRepository, get()) }
     viewModel { CommentsViewModel(CommentRepositoryImpl(get(), get()) as CommentRepository, get()) }
     viewModel { UsersViewModel(UserRepositoryImpl(get(), get()) as UserRepository, get()) }
+}
+
+val workerModule = module {
+    worker { LocalDataSyncWorker(androidContext(), get()) }
 }

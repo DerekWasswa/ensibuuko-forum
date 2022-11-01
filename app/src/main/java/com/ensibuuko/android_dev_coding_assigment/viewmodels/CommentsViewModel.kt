@@ -53,15 +53,15 @@ class CommentsViewModel(
         _postComments.postValue(Resource.success(emptyList()))
     }
 
-    fun fetchPostComments(postId: String) {
+    fun fetchPostComments(postId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             _postComments.run {
                 postValue(Resource.loading())
 
                 if (connectionDetector.isNetworkAvailable()) {
-                    commentRepository.fetchPostComments(postId)
+                    commentRepository.fetchPostComments(postId.toString())
                         .catch { _ ->
-                            commentRepository.getLocalPostComments(postId.toLong())
+                            commentRepository.getLocalPostComments(postId)
                                 .collectLatest { postValue(Resource.success(it)) }
                         }
                         .collectLatest {
@@ -69,7 +69,7 @@ class CommentsViewModel(
                             postValue(Resource.success(it))
                         }
                 } else {
-                    commentRepository.getLocalPostComments(postId.toLong())
+                    commentRepository.getLocalPostComments(postId)
                         .collectLatest { postValue(Resource.success(it)) }
                 }
             }

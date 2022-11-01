@@ -8,15 +8,15 @@ interface CommentApi {
     @GET("comments")
     suspend fun getComments(): List<Comment>
 
-    @GET("post/{postId}/comment")
+    @GET("posts/{postId}/comments")
     suspend fun getPostComments(@Path("postId") postId: String): List<Comment>
 
-    @POST("post/{postId}/comment")
+    @POST("posts/{postId}/comments")
     suspend fun postComment(@Path("postId") postId: String, @Body comment: Comment): Comment
 
-    @PUT("comment/{commentId}")
+    @PUT("comments/{commentId}")
     suspend fun updateComment(@Path("commentId") commentId: String, @Body comment: Comment): Comment
 
-    @DELETE("comment/{commentId}")
+    @DELETE("comments/{commentId}")
     suspend fun deleteComment(@Path("commentId") commentId: String) : Response
 }

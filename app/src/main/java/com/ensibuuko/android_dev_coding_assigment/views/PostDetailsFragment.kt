@@ -56,7 +56,7 @@ class PostDetailsFragment : Fragment() {
         commentsViewModel.resetPostComments()
         observePostComments()
         observeCommentOperations()
-        commentsViewModel.fetchPostComments(selectedPost.id.toString())
+        commentsViewModel.fetchPostComments(selectedPost.id)
         binding.addComments.setOnClickListener { findNavController().navigate(PostDetailsFragmentDirections.actionPostDetailsToAddComment(user, selectedPost.id, null)) }
         binding.author.setOnClickListener { viewPostAuthorDetails() }
         binding.name.setOnClickListener { viewPostAuthorDetails() }
@@ -140,7 +140,7 @@ class PostDetailsFragment : Fragment() {
                 }
                 Resource.Status.SUCCESS -> {
                     data?.let { _ ->
-                        commentsViewModel.fetchPostComments(selectedPost.id.toString())
+                        commentsViewModel.fetchPostComments(selectedPost.id)
                         Toast.makeText(requireContext(), "Successful", Toast.LENGTH_SHORT).show()
                     }
                 }

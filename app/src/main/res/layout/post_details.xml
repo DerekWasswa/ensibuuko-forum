@@ -79,8 +79,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_marginTop="10dp"
-        android:ellipsize="end"
-        android:maxLines="3"
         android:textSize="@dimen/text_16sp"
         tools:text="Lorem ipsum dolor sit amet, ea vis nullam appareat accusata" />
 
