@@ -27,24 +27,46 @@
         tools:layout="@layout/post_details">
 
         <argument android:name="post" app:argType="com.ensibuuko.android_dev_coding_assigment.data.models.Post" />
+        <argument android:name="user" app:argType="com.ensibuuko.android_dev_coding_assigment.data.models.User" app:nullable="true" />
+        <argument android:name="comments" app:argType="com.ensibuuko.android_dev_coding_assigment.data.models.Comment[]" />
 
         <action
             android:id="@+id/action_PostDetails_to_AddComment"
             app:destination="@id/addCommentFragment" />
+
+        <action
+            android:id="@+id/action_PostDetails_to_AuthorProfile"
+            app:destination="@id/userDetailsFragment" />
 
     </fragment>
 
     <dialog android:id="@+id/addPostFragment"
         android:name="com.ensibuuko.android_dev_coding_assigment.views.AddPostFragment"
         android:label="@string/add_post"
-        tools:layout="@layout/add_post_bottomsheet" />
+        tools:layout="@layout/add_post_bottomsheet">
+
+        <argument android:name="userId" app:argType="long" />
+        <argument android:name="post" app:argType="com.ensibuuko.android_dev_coding_assigment.data.models.Post" app:nullable="true" />
+
+    </dialog>
 
     <dialog android:id="@+id/addCommentFragment"
         android:name="com.ensibuuko.android_dev_coding_assigment.views.AddCommentFragment"
         android:label="@string/add_comment"
         tools:layout="@layout/add_comment_bottomsheet">
 
-        <argument android:name="post" app:argType="com.ensibuuko.android_dev_coding_assigment.data.models.Post" />
+        <argument android:name="user" app:argType="com.ensibuuko.android_dev_coding_assigment.data.models.User" />
+        <argument android:name="postId" app:argType="long" />
+        <argument android:name="comment" app:argType="com.ensibuuko.android_dev_coding_assigment.data.models.Comment" app:nullable="true" />
+
+    </dialog>
+
+    <dialog android:id="@+id/userDetailsFragment"
+        android:name="com.ensibuuko.android_dev_coding_assigment.views.UserDetailsFragment"
+        android:label="@string/user_details_fragment_label"
+        tools:layout="@layout/user_details">
+
+        <argument android:name="user" app:argType="com.ensibuuko.android_dev_coding_assigment.data.models.User" app:nullable="true" />
 
     </dialog>
 

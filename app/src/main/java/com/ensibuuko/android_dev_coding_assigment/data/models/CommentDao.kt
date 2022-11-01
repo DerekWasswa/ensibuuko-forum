@@ -8,6 +8,9 @@ interface CommentDao {
     @Query("SELECT * FROM comments")
     fun getComments(): Flow<List<Comment>>
 
+    @Query("SELECT * FROM comments WHERE postId = :postID")
+    fun getPostComments(postID: Long): Flow<List<Comment>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertComments(comments: List<Comment>)
 

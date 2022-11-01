@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/dimen_16dp">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_gravity="top|end"
         android:id="@+id/user"
@@ -25,7 +24,7 @@
             android:src="@drawable/bg_circle" />
 
         <TextView
-            android:id="@+id/authorInitial"
+            android:id="@+id/userInitial"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +39,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <TextView
         android:id="@+id/username_address"
         android:layout_width="wrap_content"
@@ -52,11 +50,11 @@
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
-        tools:text="Maria Antonnete"
-        android:textSize="@dimen/text_10sp"
         android:layout_height="wrap_content"
         android:layout_below="@id/username_address"
-        android:layout_toEndOf="@id/user" />
+        android:layout_toEndOf="@id/user"
+        android:textSize="@dimen/text_10sp"
+        tools:text="Maria Antonnete" />
 
     <TextView
         android:id="@+id/addresses"
@@ -80,7 +78,6 @@
         android:textSize="@dimen/text_18sp"
         tools:text="Amet, ea vis nullam appareat accusata, ea quo quis purto. Quo debitis gloriatur et, ius no lorem inermis." />
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/phone_web"
         android:layout_width="match_parent"
@@ -90,7 +87,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/website"
+            android:id="@+id/email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -99,7 +96,7 @@
             tools:text="hildegard.org" />
 
         <TextView
-            android:id="@+id/comments"
+            android:id="@+id/phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_14sp"
@@ -109,5 +106,12 @@
             tools:text="1-463-123-4447" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ProgressBar
+        android:id="@+id/loader"
+        android:layout_width="@dimen/dimen_30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center" />
 
 </RelativeLayout>

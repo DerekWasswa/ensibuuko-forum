@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class PostsViewModel(
     private val postsRepository: PostsRepository,
@@ -32,17 +31,81 @@ class PostsViewModel(
                     postsRepository.fetchPosts()
                         .catch { _ ->
                             postsRepository.getLocalPosts()
-                                .collectLatest { postValue(Resource.success(it)) }
+                                .collectLatest { postValue(Resource.success(it.reversed())) }
                         }
                         .collectLatest {
-                            withContext(Dispatchers.IO) { postsRepository.insertPosts(it) }
-                            postValue(Resource.success(it))
+                            postsRepository.insertPosts(it)
+                            postValue(Resource.success(it.reversed()))
                         }
                 } else {
                     postsRepository.getLocalPosts()
-                        .collectLatest { postValue(Resource.success(it)) }
+                        .collectLatest { postValue(Resource.success(it.reversed())) }
                 }
             }
         }
+    }
+
+    private val _postOperations = MutableLiveData<Resource<Boolean>>()
+    val postOperations : LiveData<Resource<Boolean>>
+        get() = _postOperations
+
+    fun addPost(post: Post) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _postOperations.run {
+                postValue(Resource.loading())
+                if (connectionDetector.isNetworkAvailable()) {
+                    postsRepository.addRemotePost(post)
+                        .catch {
+                            postsRepository.insertPost(post)
+                            postValue(Resource.success(true))
+                        }
+                        .collectLatest { postValue(Resource.success(true)) }
+                } else {
+                    postsRepository.insertPost(post)
+                    postValue(Resource.success(true))
+                }
+            }
+        }
+    }
+
+    fun updatePost(post: Post) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _postOperations.run {
+                postValue(Resource.loading())
+                if (connectionDetector.isNetworkAvailable()) {
+                    postsRepository.updateRemotePost(post)
+                        .catch {
+                            postsRepository.updateLocalPost(post)
+                            postValue(Resource.success(true))
+                        }
+                        .collectLatest { postValue(Resource.success(true)) }
+                } else {
+                    postsRepository.updateLocalPost(post)
+                    postValue(Resource.success(true))
+                }
+            }
+        }
+    }
+
+    fun deletePost(post: Post) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _postOperations.run {
+                if (connectionDetector.isNetworkAvailable()) {
+                    postsRepository.deleteRemotePost(post.id.toString())
+                        .catch {
+                            postsRepository.deleteLocalPost(post)
+                            postValue(Resource.success(true))
+                        }
+                        .collectLatest { postValue(Resource.success(true)) }
+                } else {
+                    postsRepository.deleteLocalPost(post)
+                    postValue(Resource.success(true))
+                }
+            }
+        }
+    }
+
+    fun resetPostOperations() {
+        _postOperations.postValue(Resource.success(false))
     }
 }

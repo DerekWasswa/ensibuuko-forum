@@ -31,11 +31,12 @@ class UsersViewModel(
 
                 if (connectionDetector.isNetworkAvailable()) {
                     userRepository.fetchUsers()
-                        .catch { e ->
-                            postValue(Resource.error(e.message?: "fetching users error"))
+                        .catch { _ ->
+                            userRepository.getLocalUsers()
+                                .collectLatest { postValue(Resource.success(it)) }
                         }
                         .collectLatest {
-                            withContext(Dispatchers.IO) { userRepository.insertUsers(it) }
+                            userRepository.insertUsers(it)
                             postValue(Resource.success(it))
                         }
                 } else {

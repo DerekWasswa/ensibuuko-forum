@@ -1,13 +1,12 @@
 package com.ensibuuko.android_dev_coding_assigment.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.ensibuuko.android_dev_coding_assigment.R
 import com.ensibuuko.android_dev_coding_assigment.data.models.Comment
+import com.ensibuuko.android_dev_coding_assigment.databinding.CommentRowBinding
 
 class CommentsAdapter(val commentListener: CommentListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -25,7 +24,8 @@ class CommentsAdapter(val commentListener: CommentListener) : RecyclerView.Adapt
     private val differ = AsyncListDiffer(this, diffCallBack)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return CommentItem(LayoutInflater.from(parent.context).inflate(R.layout.comment_row, parent, false))
+        val binding: CommentRowBinding = CommentRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return CommentItem(binding)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -45,10 +45,16 @@ class CommentsAdapter(val commentListener: CommentListener) : RecyclerView.Adapt
         differ.submitList(list)
     }
 
-    inner class CommentItem internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class CommentItem internal constructor(binding: CommentRowBinding) : RecyclerView.ViewHolder(binding.root) {
+        private val mBinding: CommentRowBinding = binding
+        fun bind(comment: Comment) = with(itemView) {
+            mBinding.name.text = comment.name
+            mBinding.email.text = comment.email
+            mBinding.authorInitial.text = comment.name.first().toString()
+            mBinding.comment.text = comment.body
 
-        fun bind(post: Comment) = with(itemView) {
-
+            mBinding.editComment.setOnClickListener { commentListener.editComment(comment) }
+            mBinding.deleteComment.setOnClickListener { commentListener.deleteComment(comment) }
         }
     }
 }

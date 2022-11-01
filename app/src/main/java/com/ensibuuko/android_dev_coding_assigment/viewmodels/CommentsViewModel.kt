@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class CommentsViewModel(
     private val commentRepository: CommentRepository,
@@ -23,18 +22,19 @@ class CommentsViewModel(
     val comments : LiveData<Resource<List<Comment>>>
         get() = _comments
 
-    fun fetchPosts() {
+    fun fetchComments() {
         viewModelScope.launch(Dispatchers.IO) {
             _comments.run {
                 postValue(Resource.loading())
 
                 if (connectionDetector.isNetworkAvailable()) {
                     commentRepository.fetchComments()
-                        .catch { e ->
-                            postValue(Resource.error(e.message?: "fetching comments error"))
+                        .catch { _ ->
+                            commentRepository.getLocalComments()
+                                .collectLatest { postValue(Resource.success(it)) }
                         }
                         .collectLatest {
-                            withContext(Dispatchers.IO) { commentRepository.insertComments(it) }
+                            commentRepository.insertComments(it)
                             postValue(Resource.success(it))
                         }
                 } else {
@@ -43,6 +43,102 @@ class CommentsViewModel(
                 }
             }
         }
+    }
+
+    private val _postComments = MutableLiveData<Resource<List<Comment>>>()
+    val postComments : LiveData<Resource<List<Comment>>>
+        get() = _postComments
+
+    fun resetPostComments() {
+        _postComments.postValue(Resource.success(emptyList()))
+    }
+
+    fun fetchPostComments(postId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _postComments.run {
+                postValue(Resource.loading())
+
+                if (connectionDetector.isNetworkAvailable()) {
+                    commentRepository.fetchPostComments(postId)
+                        .catch { _ ->
+                            commentRepository.getLocalPostComments(postId.toLong())
+                                .collectLatest { postValue(Resource.success(it)) }
+                        }
+                        .collectLatest {
+                            commentRepository.insertComments(it)
+                            postValue(Resource.success(it))
+                        }
+                } else {
+                    commentRepository.getLocalPostComments(postId.toLong())
+                        .collectLatest { postValue(Resource.success(it)) }
+                }
+            }
+        }
+    }
+
+    private val _commentOperations = MutableLiveData<Resource<Boolean>>()
+    val commentOperations : LiveData<Resource<Boolean>>
+        get() = _commentOperations
+
+    fun addComment(comment: Comment) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _commentOperations.run {
+                postValue(Resource.loading())
+                if (connectionDetector.isNetworkAvailable()) {
+                    commentRepository.addRemoteComment(comment)
+                        .catch {
+                            commentRepository.insertComment(comment)
+                            postValue(Resource.success(true))
+                        }
+                        .collectLatest { postValue(Resource.success(true)) }
+                } else {
+                    commentRepository.insertComment(comment)
+                    postValue(Resource.success(true))
+                }
+            }
+        }
+
+    }
+
+    fun updateComment(comment: Comment) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _commentOperations.run {
+                postValue(Resource.loading())
+                if (connectionDetector.isNetworkAvailable()) {
+                    commentRepository.updateRemoteComment(comment)
+                        .catch {
+                            commentRepository.updateLocalComment(comment)
+                            postValue(Resource.success(true))
+                        }
+                        .collectLatest { postValue(Resource.success(true)) }
+                } else {
+                    commentRepository.updateLocalComment(comment)
+                    postValue(Resource.success(true))
+                }
+            }
+        }
+    }
+
+    fun deleteComment(comment: Comment) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _commentOperations.run {
+                if (connectionDetector.isNetworkAvailable()) {
+                    commentRepository.deleteRemoteComment(comment.id.toString())
+                        .catch {
+                            commentRepository.deleteLocalComment(comment)
+                            postValue(Resource.success(true))
+                        }
+                        .collectLatest { postValue(Resource.success(true)) }
+                } else {
+                    commentRepository.deleteLocalComment(comment)
+                    postValue(Resource.success(true))
+                }
+            }
+        }
+    }
+
+    fun resetCommentOperations() {
+        _commentOperations.postValue(Resource.success(false))
     }
 
 }

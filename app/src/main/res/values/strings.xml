@@ -4,6 +4,7 @@
     <!-- Strings used for fragments for navigation -->
     <string name="post_fragment_label">Posts</string>
     <string name="details_fragment_label">Post Details</string>
+    <string name="user_details_fragment_label">User Details</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
