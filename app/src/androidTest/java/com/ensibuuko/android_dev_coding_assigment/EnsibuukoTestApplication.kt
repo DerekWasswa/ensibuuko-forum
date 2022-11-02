@@ -12,6 +12,7 @@ import com.ensibuuko.android_dev_coding_assigment.data.models.PostDao
 import com.ensibuuko.android_dev_coding_assigment.data.models.UserDao
 import com.ensibuuko.android_dev_coding_assigment.data.repository.*
 import com.ensibuuko.android_dev_coding_assigment.utils.ConnectionDetector
+import com.ensibuuko.android_dev_coding_assigment.utils.LocalDataSyncWorker
 import com.ensibuuko.android_dev_coding_assigment.viewmodels.CommentsViewModel
 import com.ensibuuko.android_dev_coding_assigment.viewmodels.PostsViewModel
 import com.ensibuuko.android_dev_coding_assigment.viewmodels.UsersViewModel
@@ -21,6 +22,8 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.workmanager.dsl.worker
+import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.GlobalContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -98,9 +101,14 @@ class EnsibuukoTestApplication : Application() {
             return ConnectionDetector(context)
         }
 
+        fun provideCoroutineDispatcher() : com.ensibuuko.android_dev_coding_assigment.utils.CoroutineDispatcher {
+            return com.ensibuuko.android_dev_coding_assigment.utils.CoroutineDispatcher()
+        }
+
         single { provideHttpClient() }
         single { provideRetrofit(get()) }
         single { provideConnectionDetector(androidContext()) }
+        single { provideCoroutineDispatcher() }
     }
 
     private val testViewModelModule = module {
@@ -109,12 +117,17 @@ class EnsibuukoTestApplication : Application() {
         viewModel { UsersViewModel(FakeUserRepository(), get(), get()) }
     }
 
+    val testWorkerModule = module {
+        worker { LocalDataSyncWorker(androidContext(), get()) }
+    }
+
     override fun onCreate() {
         super.onCreate()
         GlobalContext.startKoin {
             androidLogger()
             androidContext(this@EnsibuukoTestApplication)
-            modules(listOf(testDatabaseModule, testApiModule, testNetworkModule, testViewModelModule))
+            workManagerFactory()
+            modules(listOf(testDatabaseModule, testApiModule, testNetworkModule, testViewModelModule, testWorkerModule))
         }
     }
 

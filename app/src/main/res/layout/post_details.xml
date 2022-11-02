@@ -65,11 +65,11 @@
 
     <TextView
         android:id="@+id/title"
-        android:fontFamily="@font/gilroy_semi_bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/author"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/gilroy_semi_bold"
         android:textSize="@dimen/text_18sp"
         tools:text="Lorem ipsum dolor sit amet, ea vis nullam appareat accusata, ea quo quis purto. Quo debitis gloriatur et, ius no lorem inermis." />
 
