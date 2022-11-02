@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.ensibuuko.android_dev_coding_assigment.data.models.Post
 import com.ensibuuko.android_dev_coding_assigment.data.repository.PostsRepository
 import com.ensibuuko.android_dev_coding_assigment.utils.ConnectionDetector
+import com.ensibuuko.android_dev_coding_assigment.utils.CoroutineDispatcher
 import com.ensibuuko.android_dev_coding_assigment.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -15,7 +16,8 @@ import kotlinx.coroutines.launch
 
 class PostsViewModel(
     private val postsRepository: PostsRepository,
-    private val connectionDetector: ConnectionDetector
+    private val connectionDetector: ConnectionDetector,
+    private val coroutineDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _posts = MutableLiveData<Resource<List<Post>>>()
@@ -23,7 +25,7 @@ class PostsViewModel(
         get() = _posts
 
     fun fetchPosts() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher.io) {
             _posts.run {
                 postValue(Resource.loading())
 
@@ -50,7 +52,7 @@ class PostsViewModel(
         get() = _postOperations
 
     fun addPost(post: Post) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher.io) {
             _postOperations.run {
                 postValue(Resource.loading())
                 if (connectionDetector.isNetworkAvailable()) {
@@ -74,7 +76,7 @@ class PostsViewModel(
     }
 
     fun updatePost(post: Post) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher.io) {
             _postOperations.run {
                 postValue(Resource.loading())
                 if (connectionDetector.isNetworkAvailable()) {
@@ -98,7 +100,7 @@ class PostsViewModel(
     }
 
     fun deletePost(post: Post) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher.io) {
             _postOperations.run {
                 if (connectionDetector.isNetworkAvailable()) {
                     postsRepository.deleteRemotePost(post.id.toString())

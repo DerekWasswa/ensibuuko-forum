@@ -18,7 +18,7 @@ class PostRepositoryImpl(
 
     override suspend fun updateRemotePost(post: Post): Flow<Post> = flow { emit(postApi.updatePost(post.id.toString(), post)) }
 
-    override suspend fun deleteRemotePost(postId: String): Flow<Response> = flow { emit(postApi.deletePost(postId)) }
+    override suspend fun deleteRemotePost(postId: String): Flow<Post> = flow { emit(postApi.deletePost(postId)) }
 
     override suspend fun getLocalPosts(): Flow<List<Post>> = postDao.getPosts()
 

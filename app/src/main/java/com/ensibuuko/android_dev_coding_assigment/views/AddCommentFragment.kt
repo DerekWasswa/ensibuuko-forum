@@ -91,6 +91,7 @@ class AddCommentFragment : BottomSheetDialogFragment() {
                 }?: kotlin.run {
                     val comment = Comment(System.currentTimeMillis(),
                         postId, user.name, user.email, body, false)
+                    binding.loading = true
                     commentsViewModel.addComment(comment)
                 }
             }

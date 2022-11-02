@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.ensibuuko.android_dev_coding_assigment.data.models.Comment
 import com.ensibuuko.android_dev_coding_assigment.data.repository.CommentRepository
 import com.ensibuuko.android_dev_coding_assigment.utils.ConnectionDetector
+import com.ensibuuko.android_dev_coding_assigment.utils.CoroutineDispatcher
 import com.ensibuuko.android_dev_coding_assigment.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -15,7 +16,8 @@ import kotlinx.coroutines.launch
 
 class CommentsViewModel(
     private val commentRepository: CommentRepository,
-    private val connectionDetector: ConnectionDetector
+    private val connectionDetector: ConnectionDetector,
+    private val coroutineDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _comments = MutableLiveData<Resource<List<Comment>>>()
@@ -23,7 +25,7 @@ class CommentsViewModel(
         get() = _comments
 
     fun fetchComments() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher.io) {
             _comments.run {
                 postValue(Resource.loading())
 
@@ -54,7 +56,7 @@ class CommentsViewModel(
     }
 
     fun fetchPostComments(postId: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher.io) {
             _postComments.run {
                 postValue(Resource.loading())
 
@@ -81,7 +83,7 @@ class CommentsViewModel(
         get() = _commentOperations
 
     fun addComment(comment: Comment) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher.io) {
             _commentOperations.run {
                 postValue(Resource.loading())
                 if (connectionDetector.isNetworkAvailable()) {
@@ -101,7 +103,7 @@ class CommentsViewModel(
     }
 
     fun updateComment(comment: Comment) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher.io) {
             _commentOperations.run {
                 postValue(Resource.loading())
                 if (connectionDetector.isNetworkAvailable()) {
@@ -120,7 +122,7 @@ class CommentsViewModel(
     }
 
     fun deleteComment(comment: Comment) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher.io) {
             _commentOperations.run {
                 if (connectionDetector.isNetworkAvailable()) {
                     commentRepository.deleteRemoteComment(comment.id.toString())

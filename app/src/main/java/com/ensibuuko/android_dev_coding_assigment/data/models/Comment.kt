@@ -16,5 +16,5 @@ data class Comment (
     val name: String,
     val email: String,
     val body: String,
-    val synced: Boolean = true,
+    var synced: Boolean = true,
 ) : Parcelable

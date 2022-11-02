@@ -18,5 +18,5 @@ interface CommentApi {
     suspend fun updateComment(@Path("commentId") commentId: String, @Body comment: Comment): Comment
 
     @DELETE("comments/{commentId}")
-    suspend fun deleteComment(@Path("commentId") commentId: String) : Response
+    suspend fun deleteComment(@Path("commentId") commentId: String) : Comment
 }

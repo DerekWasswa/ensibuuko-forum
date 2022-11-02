@@ -14,6 +14,7 @@ import com.ensibuuko.android_dev_coding_assigment.data.models.UserDao
 import com.ensibuuko.android_dev_coding_assigment.data.repository.*
 import com.ensibuuko.android_dev_coding_assigment.utils.ConnectionDetector
 import com.ensibuuko.android_dev_coding_assigment.utils.Constants
+import com.ensibuuko.android_dev_coding_assigment.utils.CoroutineDispatcher
 import com.ensibuuko.android_dev_coding_assigment.utils.LocalDataSyncWorker
 import com.ensibuuko.android_dev_coding_assigment.viewmodels.CommentsViewModel
 import com.ensibuuko.android_dev_coding_assigment.viewmodels.PostsViewModel
@@ -105,18 +106,23 @@ val networkModule = module {
         return ConnectionDetector(context)
     }
 
+    fun provideCoroutineDispatcher() : CoroutineDispatcher {
+        return CoroutineDispatcher()
+    }
+
     single { provideHttpClient() }
     single {
         val baseUrl = Constants.BASE_URL
         provideRetrofit(get(), baseUrl)
     }
     single { provideConnectionDetector(androidContext()) }
+    single { provideCoroutineDispatcher() }
 }
 
 val viewModelModule = module {
-    viewModel { PostsViewModel(PostRepositoryImpl(get(), get()) as PostsRepository, get()) }
-    viewModel { CommentsViewModel(CommentRepositoryImpl(get(), get()) as CommentRepository, get()) }
-    viewModel { UsersViewModel(UserRepositoryImpl(get(), get()) as UserRepository, get()) }
+    viewModel { PostsViewModel(PostRepositoryImpl(get(), get()) as PostsRepository, get(), get()) }
+    viewModel { CommentsViewModel(CommentRepositoryImpl(get(), get()) as CommentRepository, get(), get()) }
+    viewModel { UsersViewModel(UserRepositoryImpl(get(), get()) as UserRepository, get(), get()) }
 }
 
 val workerModule = module {

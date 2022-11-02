@@ -1,7 +1,6 @@
 package com.ensibuuko.android_dev_coding_assigment.api
 
 import com.ensibuuko.android_dev_coding_assigment.data.models.Post
-import okhttp3.Response
 import retrofit2.http.*
 
 interface PostApi {
@@ -15,5 +14,5 @@ interface PostApi {
     suspend fun updatePost(@Path("postId") postId: String, @Body post: Post): Post
 
     @DELETE("posts/{postId}")
-    suspend fun deletePost(@Path("postId") postId: String): Response
+    suspend fun deletePost(@Path("postId") postId: String): Post
 }

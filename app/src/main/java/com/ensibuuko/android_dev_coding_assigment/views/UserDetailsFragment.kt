@@ -69,7 +69,7 @@ class UserDetailsFragment: BottomSheetDialogFragment() {
                         binding.usernameAddress.text = username
 
                         binding.email.text = user.email
-                        binding.phone.text = user.email
+                        binding.phone.text = user.phone
 
                         with(user.address) {
                             val address = "${this.suite} - ${this.street}, ${this.city}"

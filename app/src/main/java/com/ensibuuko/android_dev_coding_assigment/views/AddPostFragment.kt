@@ -87,6 +87,7 @@ class AddPostFragment : BottomSheetDialogFragment() {
                     postsViewModel.updatePost(post)
                 }?: kotlin.run {
                     val post = Post(System.currentTimeMillis(), userId, title, body, false)
+                    binding.loading = true
                     postsViewModel.addPost(post)
                 }
             }

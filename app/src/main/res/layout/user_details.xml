@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/username_address"
         android:layout_toEndOf="@id/user"
-        android:textSize="@dimen/text_10sp"
+        android:textSize="@dimen/text_12sp"
         tools:text="Maria Antonnete" />
 
     <TextView

@@ -5,7 +5,6 @@ import com.ensibuuko.android_dev_coding_assigment.data.models.Comment
 import com.ensibuuko.android_dev_coding_assigment.data.models.CommentDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import okhttp3.Response
 
 class CommentRepositoryImpl(
     private val commentApi: CommentApi,
@@ -19,7 +18,7 @@ class CommentRepositoryImpl(
 
     override suspend fun updateRemoteComment(comment: Comment): Flow<Comment> = flow { emit(commentApi.updateComment(comment.id.toString(), comment)) }
 
-    override suspend fun deleteRemoteComment(commentId: String): Flow<Response> = flow { emit(commentApi.deleteComment(commentId)) }
+    override suspend fun deleteRemoteComment(commentId: String): Flow<Comment> = flow { emit(commentApi.deleteComment(commentId)) }
 
     override suspend fun getLocalComments(): Flow<List<Comment>> = commentDao.getComments()
 

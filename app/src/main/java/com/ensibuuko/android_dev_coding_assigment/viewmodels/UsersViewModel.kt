@@ -8,6 +8,7 @@ import com.ensibuuko.android_dev_coding_assigment.data.models.Comment
 import com.ensibuuko.android_dev_coding_assigment.data.models.User
 import com.ensibuuko.android_dev_coding_assigment.data.repository.UserRepository
 import com.ensibuuko.android_dev_coding_assigment.utils.ConnectionDetector
+import com.ensibuuko.android_dev_coding_assigment.utils.CoroutineDispatcher
 import com.ensibuuko.android_dev_coding_assigment.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -17,7 +18,8 @@ import kotlinx.coroutines.withContext
 
 class UsersViewModel(
     private val userRepository: UserRepository,
-    private val connectionDetector: ConnectionDetector
+    private val connectionDetector: ConnectionDetector,
+    private val coroutineDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _users = MutableLiveData<Resource<List<User>>>()
@@ -25,7 +27,7 @@ class UsersViewModel(
         get() = _users
 
     fun fetchUsers() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher.io) {
             _users.run {
                 postValue(Resource.loading())
 

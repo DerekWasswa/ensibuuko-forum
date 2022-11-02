@@ -15,5 +15,5 @@ data class Post (
     val userId: Long,
     val title: String,
     val body: String,
-    val synced: Boolean = true,
+    var synced: Boolean = true,
 ) : Parcelable
